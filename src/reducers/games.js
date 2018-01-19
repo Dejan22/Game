@@ -1,4 +1,3 @@
-// src/reducers/games.js
 import { FETCHED_GAMES, FETCHED_ONE_GAME } from '../actions/games/fetch'
 import {
   GAME_CREATED,

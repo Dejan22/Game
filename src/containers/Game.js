@@ -6,11 +6,12 @@ import { connect as subscribeToWebsocket } from '../actions/websocket'
 import JoinGameDialog from '../components/games/JoinGameDialog'
 import Tile from '../components/games/Tile'
 import './Game.css'
+import { create_tile } from '../actions/games/create_tile'
+import TicTacToe from './TicTacToe.js'
 
 
 const playerShape = PropTypes.shape({
-  userId: PropTypes.string.isRequired,
-  pairs: PropTypes.arrayOf(PropTypes.string).isRequired,
+  _id: PropTypes.string.isRequired,
   name: PropTypes.string
 })
 
@@ -28,12 +29,7 @@ class Game extends PureComponent {
       createdAt: PropTypes.string.isRequired,
       started: PropTypes.bool,
       turn: PropTypes.number.isRequired,
-      cards: PropTypes.arrayOf(PropTypes.shape({
-        symbol: PropTypes.string,
-        _id: PropTypes.string,
-        won: PropTypes.bool,
-        visible: PropTypes.bool
-      }))
+      tictactoe: PropTypes.arrayOf(PropTypes.string)
     }),
     currentPlayer: playerShape,
     isPlayer: PropTypes.bool,
@@ -56,10 +52,18 @@ class Game extends PureComponent {
       this.props.fetchPlayers(game)
     }
   }
+    create_tile = value => () => {
+    const {game} = this.props
+    console.log(value)
+    this.props.create_tile(game, value, this.props.currentPlayer)
+  }
+
+  renderTile = (value, index) => {
+    return <Tile key={index} onClick={this.create_tile(index)} value={value} />
+  }
 
   render() {
     const { game } = this.props
-
     if (!game) return null
 
     const title = game.players.map(p => (p.name || null))
@@ -68,29 +72,26 @@ class Game extends PureComponent {
 
     return (
       <div className="Game">
-        <h1>Game!</h1>
+        <h1>TIC TAC TOES</h1>
         <p>{title}</p>
-
-        <h1>YOUR GAME HERE! :)</h1>
-
-        <h2>Debug Props</h2>
-        <pre>{JSON.stringify(this.props, true, 2)}</pre>
-
         <JoinGameDialog gameId={game._id} />
-      </div>
-    )
+                  <div className="GameBoard">
+                  {this.props.game.tictactoe.map(this.renderTile)}
+                  </div>
+              </div>
+        )
   }
 }
 
 const mapStateToProps = ({ currentUser, games }, { match }) => {
   const game = games.filter((g) => (g._id === match.params.gameId))[0]
-  const currentPlayer = game && game.players.filter((p) => (p.userId === currentUser._id))[0]
-  const hasTurn = !!currentPlayer && game.players[game.turn].userId === currentUser._id
+  const currentPlayer = game && game.players.filter((p) => (p._id === currentUser._id))[0]
+
   return {
     currentPlayer,
     game,
     isPlayer: !!currentPlayer,
-    hasTurn,
+    hasTurn: currentPlayer && currentPlayer._id === currentUser._id,
     isJoinable: game && !currentPlayer && game.players.length < 2
   }
 }
@@ -98,5 +99,6 @@ const mapStateToProps = ({ currentUser, games }, { match }) => {
 export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneGame,
-  fetchPlayers
+  fetchPlayers,
+  create_tile: create_tile,
 })(Game)
