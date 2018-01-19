@@ -5,10 +5,15 @@ import {
   LOAD_ERROR,
   LOAD_SUCCESS
 }from '../loading'
+
+export const MARK_TILE = 'MARK_TILE'
+
 const api = new API()
 
-export const create_tile = (game, index, currentPlayer) => {
+export default (game, index, currentPlayer) => {
   return (dispatch) => {
+    dispatch({ type: APP_LOADING })
+    // console.log(index, game);
     api.patch(`/games/play/${game._id}`,{game, index, currentPlayer})
     .then(() => {
       dispatch({ type: APP_DONE_LOADING })

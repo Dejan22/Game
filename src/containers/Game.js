@@ -6,12 +6,12 @@ import { connect as subscribeToWebsocket } from '../actions/websocket'
 import JoinGameDialog from '../components/games/JoinGameDialog'
 import Tile from '../components/games/Tile'
 import './Game.css'
-import { create_tile } from '../actions/games/create_tile'
-import TicTacToe from './TicTacToe.js'
+import markTile from '../actions/games/markTile'
+// import TicTacToe from './TicTacToe.js'
 
 
 const playerShape = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
   name: PropTypes.string
 })
 
@@ -24,12 +24,12 @@ class Game extends PureComponent {
       _id: PropTypes.string.isRequired,
       userId: PropTypes.string.isRequired,
       players: PropTypes.arrayOf(playerShape),
-      draw: PropTypes.bool,
+      // draw: PropTypes.bool,
       updatedAt: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
-      started: PropTypes.bool,
+      // started: PropTypes.bool,
       turn: PropTypes.number.isRequired,
-      tictactoe: PropTypes.arrayOf(PropTypes.string)
+      // grid: PropTypes.array.isRequired
     }),
     currentPlayer: playerShape,
     isPlayer: PropTypes.bool,
@@ -52,14 +52,16 @@ class Game extends PureComponent {
       this.props.fetchPlayers(game)
     }
   }
-    create_tile = value => () => {
-    const {game} = this.props
-    console.log(value)
-    this.props.create_tile(game, value, this.props.currentPlayer)
+
+  clickTile = (index) => () => {
+    const { game } = this.props
+    console.log(index)
+    this.props.markTile(game, index, this.props.currentPlayer)
+
   }
 
   renderTile = (value, index) => {
-    return <Tile key={index} onClick={this.create_tile(index)} value={value} />
+    return <Tile key={index} onClick={this.clickTile(index).bind(this)} value={value} />
   }
 
   render() {
@@ -76,7 +78,7 @@ class Game extends PureComponent {
         <p>{title}</p>
         <JoinGameDialog gameId={game._id} />
                   <div className="GameBoard">
-                  {this.props.game.tictactoe.map(this.renderTile)}
+                  {this.props.game.grid.map(this.renderTile)}
                   </div>
               </div>
         )
@@ -100,5 +102,5 @@ export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneGame,
   fetchPlayers,
-  create_tile: create_tile,
+  markTile
 })(Game)
