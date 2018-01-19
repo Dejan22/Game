@@ -6,7 +6,7 @@ import { connect as subscribeToWebsocket } from '../actions/websocket'
 import JoinGameDialog from '../components/games/JoinGameDialog'
 import Tile from '../components/games/Tile'
 import './Game.css'
-import { take_tile } from '../actions/games/take_tile'
+import { create_tile } from '../actions/games/create_tile'
 import TicTacToe from './TicTacToe.js'
 
 
@@ -52,14 +52,14 @@ class Game extends PureComponent {
       this.props.fetchPlayers(game)
     }
   }
-    take_tile = value => () => {
+    create_tile = value => () => {
     const {game} = this.props
     console.log(value)
-    this.props.take_tile(game, value, this.props.currentPlayer)
+    this.props.create_tile(game, value, this.props.currentPlayer)
   }
 
   renderTile = (value, index) => {
-    return <Tile key={index} onClick={this.take_tile(index)} value={value} />
+    return <Tile key={index} onClick={this.create_tile(index)} value={value} />
   }
 
   render() {
@@ -100,5 +100,5 @@ export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneGame,
   fetchPlayers,
-  take_tile: take_tile,
+  create_tile: create_tile,
 })(Game)

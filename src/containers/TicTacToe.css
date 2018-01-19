@@ -1,6 +1,6 @@
 .TicTacToe {
-display: flex;
-flex-flow: row wrap;
-width: 615px
-margin: auto;  
+  display: flex;
+  flex-flow: row wrap;
+  width: 615px;
+  margin: auto;
 }

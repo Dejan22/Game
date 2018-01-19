@@ -8,20 +8,20 @@ import {
 const api = new API()
 
 export const create_tile = (game, index, currentPlayer) => {
-  return (dispath) => {
+  return (dispatch) => {
     api.patch(`/games/play/${game._id}`,{game, index, currentPlayer})
     .then(() => {
       dispatch({ type: APP_DONE_LOADING })
-      dispatch({ typeL LOAD_SUCCESS })
+      dispatch({ type: LOAD_SUCCESS })
       console.log("clickTile index is " + index)
 
     })
     .catch((error) => {
-      dispatch({ type: APP_DONE+LOADING })
+      dispatch({ type: APP_DONE_LOADING })
       dispatch({
       type: LOAD_ERROR,
-      payload: errpr.message
+      payload: error.message
       })
     })
-  }  
+  }
 }
