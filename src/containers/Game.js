@@ -10,8 +10,9 @@ import './Game.css'
 
 const playerShape = PropTypes.shape({
   userId: PropTypes.string.isRequired,
-  pairs: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // pairs: PropTypes.arrayOf(PropTypes.string).isRequired,
   name: PropTypes.string
+  // symbol: PropTypes.string.isRequired
 })
 
 class Game extends PureComponent {
@@ -23,17 +24,18 @@ class Game extends PureComponent {
       _id: PropTypes.string.isRequired,
       userId: PropTypes.string.isRequired,
       players: PropTypes.arrayOf(playerShape),
-      draw: PropTypes.bool,
+      // draw: PropTypes.bool,
       updatedAt: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
-      started: PropTypes.bool,
+      // started: PropTypes.bool,
       turn: PropTypes.number.isRequired,
-      cards: PropTypes.arrayOf(PropTypes.shape({
-        symbol: PropTypes.string,
-        _id: PropTypes.string,
-        won: PropTypes.bool,
-        visible: PropTypes.bool
-      }))
+      grid: PropTypes.array.isRequired,
+      // cards: PropTypes.arrayOf(PropTypes.shape({
+      //   symbol: PropTypes.string,
+      //   _id: PropTypes.string,
+      //   won: PropTypes.bool,
+      //   visible: PropTypes.bool
+      // }))
     }),
     currentPlayer: playerShape,
     isPlayer: PropTypes.bool,
@@ -74,7 +76,7 @@ class Game extends PureComponent {
         <h1>YOUR GAME HERE! :)</h1>
 
         <h2>Debug Props</h2>
-        <pre>{JSON.stringify(this.props, true, 2)}</pre>
+        <pre>{JSON.stringify(this.props, true, 3)}</pre>
 
         <JoinGameDialog gameId={game._id} />
       </div>

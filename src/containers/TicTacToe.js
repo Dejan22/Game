@@ -1,19 +1,19 @@
-import React, { PureCOmponents } from 'react'
+import React, { PureComponents } from 'react'
 import { connect } from 'react-redux'
 import Tile from '../components/games/Tile'
 import '/TicTacToe.css'
 import '../reducers/tictactoe'
 
-class TicTacToe extends PureCOmponents {
-  takeTile = index => () {
-    this.props.despatch({
-      type: 'TAKE_TITLE'
+class TicTacToe extends PureComponents {
+  clickTile = (index) => {
+    this.props.dispatch({
+      type: 'TAKE_TITLE',
       payload: index
     })
   }
 
   renderTile = (value, index) => {
-    return <Tile key={index} onClick={ths.takeTile(index)} value={value} />
+    return <Tile key={index} onClick={this.clickTile(index)} value={value} />
   }
 
   render () {
@@ -25,6 +25,6 @@ class TicTacToe extends PureCOmponents {
   }
 }
 
-const mapeStateToProps = ({tictactoe}) => ({tictactoe})
+const mapStateToProps = ({tictactoe}) => ({tictactoe})
 
 export default connect(mapStateToProps)(TicTacToe)
