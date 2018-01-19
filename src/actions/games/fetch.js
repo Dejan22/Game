@@ -69,7 +69,7 @@ export const fetchOneGame = (gameId) => {
   return dispatch => {
     dispatch({ type: APP_LOADING })
 
-    api.get(`/games/${gameId}`)
+    api.get(`/games/${id}`)
       .then((result) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
