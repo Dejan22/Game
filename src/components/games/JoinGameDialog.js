@@ -18,9 +18,9 @@ class JoinGameDialog extends PureComponent {
   }
 
   render() {
-    const { currentUser, open, isPlayer } = this.props
-
-    if (isPlayer) return null
+    const { currentUser, open } = this.props
+    console.log(this.props)
+    
 
     const actions = [
       <Link to="/">

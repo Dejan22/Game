@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 import { fetchOneGame, fetchPlayers } from '../actions/games/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import JoinGameDialog from '../components/games/JoinGameDialog'
+import Tile from '../components/games/Tile'
+import './Game.css'
+
 
 const playerShape = PropTypes.shape({
   userId: PropTypes.string.isRequired,
